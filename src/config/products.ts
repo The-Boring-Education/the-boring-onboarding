@@ -87,8 +87,8 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ui: {
             theme: "default",
             branding: {
-                title: "Welcome to WebApp!",
-                subtitle: "Let's get you started with your journey."
+                title: "Welcome to The Boring Education!",
+                subtitle: "Let's Start with Your Tech journey."
             }
         }
     },
@@ -193,7 +193,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
             theme: "default",
             branding: {
                 title: "Welcome to PrepYatra!",
-                subtitle: "Let's prepare you for your dream job."
+                subtitle: "Let's Start with Tech Interview Prep"
             }
         }
     }
