@@ -1,7 +1,7 @@
 import { APIResponse, User } from '../types/onboarding';
 import { getProductConfig } from '../config/products';
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE as string;
 
 // Simple API functions
 export async function getUserById(
