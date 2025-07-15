@@ -1,74 +1,74 @@
-import { APIResponse, User } from '../types/onboarding';
-import { getProductConfig } from '../config/products';
+import { APIResponse, User } from "../types/onboarding"
+import { getProductConfig } from "../config/products"
 
-const API_BASE = import.meta.env.VITE_API_BASE as string;
+const API_BASE_URL = import.meta.env.API_BASE_URL as string
 
 // Simple API functions
 export async function getUserById(
-  userId: string,
-  token?: string
+    userId: string,
+    token?: string
 ): Promise<User | null> {
-  try {
-    const url = `${API_BASE}/api/v1/user?userId=${userId}`;
-    const response = await fetch(url, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    const data: APIResponse<User> = await response.json();
-    return data.status && data.data ? data.data : null;
-  } catch {
-    return null;
-  }
+    try {
+        const url = `${API_BASE_URL}/user?userId=${userId}`
+        const response = await fetch(url, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+        })
+        const data: APIResponse<User> = await response.json()
+        return data.status && data.data ? data.data : null
+    } catch {
+        return null
+    }
 }
 
 export async function checkUsernameAvailable(
-  username: string,
-  token?: string
+    username: string,
+    token?: string
 ): Promise<boolean> {
-  try {
-    const url = `${API_BASE}/api/v1/user/onbording?userName=${username}`;
-    const response = await fetch(url, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    const data: APIResponse = await response.json();
-    return data.status;
-  } catch {
-    return false;
-  }
+    try {
+        const url = `${API_BASE_URL}/api/v1/user/onbording?userName=${username}`
+        const response = await fetch(url, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+        })
+        const data: APIResponse = await response.json()
+        return data.status
+    } catch {
+        return false
+    }
 }
 
 export async function submitOnboarding(
-  productId: string,
-  userId: string,
-  data: unknown,
-  token?: string
+    productId: string,
+    userId: string,
+    data: unknown,
+    token?: string
 ): Promise<{ success: boolean; error?: string }> {
-  try {
-    const config = getProductConfig(productId);
-    if (!config) {
-      return { success: false, error: 'Invalid product configuration' };
+    try {
+        const config = getProductConfig(productId)
+        if (!config) {
+            return { success: false, error: "Invalid product configuration" }
+        }
+
+        const payload = config.api.transformPayload(data, userId)
+        // Handle dynamic endpoint
+        const endpoint =
+            typeof config.api.endpoint === "function"
+                ? config.api.endpoint(userId)
+                : config.api.endpoint
+        const response = await fetch(endpoint, {
+            method: config.api.method,
+            headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify(payload)
+        })
+
+        const result: APIResponse = await response.json()
+        return {
+            success: result.status,
+            error: result.error || result.message
+        }
+    } catch (error: any) {
+        return { success: false, error: error?.message || "Network error" }
     }
-
-    const payload = config.api.transformPayload(data, userId);
-    // Handle dynamic endpoint
-    const endpoint =
-      typeof config.api.endpoint === 'function'
-        ? config.api.endpoint(userId)
-        : config.api.endpoint;
-    const response = await fetch(endpoint, {
-      method: config.api.method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result: APIResponse = await response.json();
-    return {
-      success: result.status,
-      error: result.error || result.message,
-    };
-  } catch (error: any) {
-    return { success: false, error: error?.message || 'Network error' };
-  }
 }
