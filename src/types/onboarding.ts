@@ -21,6 +21,8 @@ export interface PrepYatraOnboardingFields extends BaseOnboardingFields {
   preferredCategories: string[];
   experienceLevel: string;
   linkedInUrl?: string;
+  githubUrl?: string;
+  leetCodeUrl?: string;
 }
 
 // User data structure
@@ -116,4 +118,6 @@ export interface UseOnboardingReturn extends OnboardingState {
   isFieldValid: boolean;
   // eslint-disable-next-line no-unused-vars
   setForm: (form: unknown) => void;
+  setUsernameAvailability: (available: boolean) => void;
+  setUsernameChecking: (checking: boolean) => void;
 }

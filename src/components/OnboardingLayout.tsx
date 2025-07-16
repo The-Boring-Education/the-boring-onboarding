@@ -16,7 +16,10 @@ interface OnboardingLayoutProps {
 }
 
 const ProgressBar = ({ step, total }: { step: number; total: number }) => {
-  const percent = Math.round((step / total) * 100);
+  // Calculate progress based on completed steps (step - 1) out of total steps
+  const completedSteps = step - 1;
+  const percent = Math.round((completedSteps / total) * 100);
+  
   return (
     <div className="w-full mb-6">
       <div className="flex justify-between items-center mb-2">

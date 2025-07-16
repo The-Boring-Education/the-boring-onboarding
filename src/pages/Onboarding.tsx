@@ -26,6 +26,8 @@ const Onboarding: React.FC = () => {
     handleBack,
     handleFinish,
     isFieldValid,
+    setUsernameAvailability,
+    setUsernameChecking,
   } = useOnboarding({ userId, productId, redirect, token });
 
   if (loading) {
@@ -66,6 +68,10 @@ const Onboarding: React.FC = () => {
         productId={productId}
         token={token}
         user={user || undefined}
+        onUsernameAvailabilityChange={(available, checking) => {
+          setUsernameAvailability(available);
+          setUsernameChecking(checking);
+        }}
       />
     </OnboardingLayout>
   );
