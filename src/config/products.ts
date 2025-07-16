@@ -157,10 +157,10 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
             createField("experienceLevel", "Experience Level", "select", 6, {
                 placeholder: "Select your experience level",
                 options: [
-                    "fresher (0-1 yr)",
-                    "junior (1-3 yr)",
-                    "mid (3-5 yr)",
-                    "senior (5+ yrs)"
+                    "Fresher (0-1 yr)",
+                    "Junior (1-3 yr)",
+                    "Mid (3-5 yr)",
+                    "Senior (5+ yrs)"
                 ],
                 prefill: {
                     fromUser: (user: User) =>
@@ -173,7 +173,21 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 prefill: {
                     fromUser: (user: User) => user.prepYatra?.linkedInUrl || ""
                 }
-            })
+            }),
+            createField("githubUrl", "GitHub URL (optional)", "url", 7, {
+                required: false,
+                placeholder: "Paste your GitHub profile URL",
+                prefill: {
+                    fromUser: (user: User) => user.prepYatra?.githubUrl || ""
+                }
+            }),
+            createField("leetCodeUrl", "LeetCode URL (optional)", "url", 7, {
+                required: false,
+                placeholder: "Paste your LeetCode profile URL",
+                prefill: {
+                    fromUser: (user: User) => user.prepYatra?.leetCodeUrl || ""
+                }
+            }),
         ],
         api: {
             endpoint: () => `${API_BASE_URL}/api/v1/prepyatra/onboarding`,
@@ -186,7 +200,9 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 targetCompanies: form.targetCompanies,
                 preferredCategories: form.preferredCategories,
                 experienceLevel: form.experienceLevel,
-                ...(form.linkedInUrl ? { linkedInUrl: form.linkedInUrl } : {})
+                ...(form.linkedInUrl ? { linkedInUrl: form.linkedInUrl } : {}),
+                ...(form.githubUrl ? { githubUrl: form.githubUrl } : {}),
+                ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {}),
             })
         },
         ui: {

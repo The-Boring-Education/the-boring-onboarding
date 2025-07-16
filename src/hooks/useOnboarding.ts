@@ -22,9 +22,17 @@ export const useOnboarding = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
+  const [usernameChecking, setUsernameChecking] = useState(false);
 
   const config = getProductConfig(productId);
-  const totalSteps = config?.fields.length || 0;
+
+  // Get unique step numbers that have at least one field
+  const stepNumbersWithFields = config ? Array.from(new Set(config.fields.map(f => f.step))).sort((a, b) => a - b) : [];
+  const totalSteps = stepNumbersWithFields.length;
+
+  // Map visible step index (1-based) to actual step number
+  const getActualStepNumber = (visibleStep: number) => stepNumbersWithFields[visibleStep - 1];
 
   // Reset form when product changes
   useEffect(() => {
@@ -92,14 +100,21 @@ export const useOnboarding = ({
 
   const isFieldValid = () => {
     if (!config) return false;
-    const currentField = config.fields[step - 1];
-    if (!currentField.required) return true;
-
-    const val = form[currentField.name];
-    if (currentField.type === 'multiselect') {
-      return Array.isArray(val) && val.length > 0;
-    }
-    return !!val;
+    const actualStep = getActualStepNumber(step);
+    const currentFields = config.fields.filter(f => f.step === actualStep);
+    // All required fields for this step must be valid
+    return currentFields.every(currentField => {
+      if (!currentField.required) return true;
+      const val = form[currentField.name];
+      if (currentField.type === 'multiselect') {
+        return Array.isArray(val) && val.length > 0;
+      }
+      const hasValue = !!val;
+      if (currentField.checkAvailability && hasValue) {
+        return usernameAvailable && !usernameChecking;
+      }
+      return hasValue;
+    });
   };
 
   return {
@@ -116,5 +131,8 @@ export const useOnboarding = ({
     handleBack,
     handleFinish,
     isFieldValid: isFieldValid(),
+    setUsernameAvailability: setUsernameAvailable,
+    setUsernameChecking,
+    // Optionally export stepNumbersWithFields and getActualStepNumber if needed elsewhere
   };
 };
