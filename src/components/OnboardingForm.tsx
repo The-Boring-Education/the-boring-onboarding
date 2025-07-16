@@ -39,7 +39,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
         const available = await checkUsernameAvailable(form[field.name] as string, token);
         setUsernameAvailable(available);
         setUsernameChecking(false);
-      }, 500);
+      }, 1200);
       return () => clearTimeout(timeout);
     } else {
       setUsernameChecking(false);
