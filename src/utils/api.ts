@@ -1,7 +1,7 @@
 import { APIResponse, User } from "../types/onboarding"
 import { getProductConfig } from "../config/products"
 
-const VITE_API_BASE_URL = import.meta.env.VITE_VITE_API_BASE_URL
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 // Simple API functions
 export async function getUserById(

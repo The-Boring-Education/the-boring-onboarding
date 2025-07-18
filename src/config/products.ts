@@ -1,6 +1,6 @@
 import { OnboardingProductConfig, User } from "../types/onboarding"
 
-const VITE_API_BASE_URL = import.meta.env.VITE_VITE_API_BASE_URL
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const createField = (
     name: string,
