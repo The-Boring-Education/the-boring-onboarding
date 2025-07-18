@@ -1,6 +1,6 @@
 import { OnboardingProductConfig, User } from "../types/onboarding"
 
-const API_BASE_URL = "http://localhost:3000"
+const VITE_API_BASE_URL = "http://localhost:3000"
 
 const createField = (
     name: string,
@@ -75,7 +75,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
+                `${VITE_API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -187,10 +187,10 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 prefill: {
                     fromUser: (user: User) => user.prepYatra?.leetCodeUrl || ""
                 }
-            }),
+            })
         ],
         api: {
-            endpoint: () => `${API_BASE_URL}/api/v1/prepyatra/onboarding`,
+            endpoint: () => `${VITE_API_BASE_URL}/api/v1/prepyatra/onboarding`,
             method: "POST",
             transformPayload: (form: any, userId) => ({
                 userId,
@@ -202,7 +202,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 experienceLevel: form.experienceLevel,
                 ...(form.linkedInUrl ? { linkedInUrl: form.linkedInUrl } : {}),
                 ...(form.githubUrl ? { githubUrl: form.githubUrl } : {}),
-                ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {}),
+                ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {})
             })
         },
         ui: {
@@ -228,7 +228,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
     //     }),
     //   ],
     //   api: {
-    //     endpoint: `${API_BASE_URL}/api/v1/newproduct/onboarding`,
+    //     endpoint: `${VITE_API_BASE_URL}/api/v1/newproduct/onboarding`,
     //     method: 'POST',
     //     transformPayload: (form, userId) => ({
     //       userId,

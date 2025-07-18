@@ -1,7 +1,7 @@
 import { APIResponse, User } from "../types/onboarding"
 import { getProductConfig } from "../config/products"
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const VITE_API_BASE_URL = import.meta.env.VITE_VITE_API_BASE_URL
 
 // Simple API functions
 export async function getUserById(
@@ -9,7 +9,7 @@ export async function getUserById(
     token?: string
 ): Promise<User | null> {
     try {
-        const url = `${API_BASE_URL}/user?userId=${userId}`
+        const url = `${VITE_API_BASE_URL}/user?userId=${userId}`
         const response = await fetch(url, {
             headers: token ? { Authorization: `Bearer ${token}` } : {}
         })
@@ -25,7 +25,7 @@ export async function checkUsernameAvailable(
     token?: string
 ): Promise<boolean> {
     try {
-        const url = `${API_BASE_URL}/user/onbording?userName=${username}`
+        const url = `${VITE_API_BASE_URL}/user/onbording?userName=${username}`
 
         const response = await fetch(url, {
             headers: token ? { Authorization: `Bearer ${token}` } : {}
