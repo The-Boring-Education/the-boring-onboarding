@@ -1,6 +1,6 @@
 import { OnboardingProductConfig, User } from "../types/onboarding"
 
-const VITE_API_BASE_URL = "http://localhost:3000"
+const VITE_API_BASE_URL = import.meta.env.VITE_VITE_API_BASE_URL
 
 const createField = (
     name: string,
@@ -75,7 +75,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${VITE_API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
+                `${VITE_API_BASE_URL}/user/onbording?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -190,7 +190,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
             })
         ],
         api: {
-            endpoint: () => `${VITE_API_BASE_URL}/api/v1/prepyatra/onboarding`,
+            endpoint: () => `${VITE_API_BASE_URL}/prepyatra/onboarding`,
             method: "POST",
             transformPayload: (form: any, userId) => ({
                 userId,
