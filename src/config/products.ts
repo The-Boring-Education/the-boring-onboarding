@@ -1,6 +1,6 @@
 import { OnboardingProductConfig, User } from "../types/onboarding"
 
-const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = "http://localhost:3000"
 
 const createField = (
     name: string,
@@ -75,7 +75,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${VITE_API_BASE_URL}/user/onbording?userId=${userId}`,
+                `${API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -187,10 +187,10 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 prefill: {
                     fromUser: (user: User) => user.prepYatra?.leetCodeUrl || ""
                 }
-            })
+            }),
         ],
         api: {
-            endpoint: () => `${VITE_API_BASE_URL}/prepyatra/onboarding`,
+            endpoint: () => `${API_BASE_URL}/api/v1/prepyatra/onboarding`,
             method: "POST",
             transformPayload: (form: any, userId) => ({
                 userId,
@@ -202,7 +202,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 experienceLevel: form.experienceLevel,
                 ...(form.linkedInUrl ? { linkedInUrl: form.linkedInUrl } : {}),
                 ...(form.githubUrl ? { githubUrl: form.githubUrl } : {}),
-                ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {})
+                ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {}),
             })
         },
         ui: {
@@ -212,7 +212,70 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
                 subtitle: "Let's Start with Tech Interview Prep"
             }
         }
-    }
+    },
+    quizapp: {
+        id: "quizapp",
+        name: "Quiz App",
+        description: "Quiz App onboarding",
+        fields: [
+            createField("userName", "Username", "text", 1, {
+                placeholder: "Enter your username",
+                checkAvailability: true,
+                prefill: {
+                    fromUser: (user: User) => user.userName || ""
+                }
+            }),
+            createField("occupation", "Occupation", "select", 2, {
+                placeholder: "Select your occupation",
+                options: [
+                    "TECH_STUDENT",
+                    "WORKING_PROFESSIONAL",
+                    "ENTREPRENEUR",
+                    "OTHER"
+                ],
+                prefill: {
+                    fromUser: (user: User) => user.occupation || ""
+                }
+            }),
+            createField("purpose", "Purpose", "multiselect", 3, {
+                placeholder: "Select your purpose(s)",
+                options: [
+                    "BUILDING_PROJECTS",
+                    "LEARNING",
+                    "NETWORKING",
+                    "JOB_SEARCH"
+                ],
+                prefill: {
+                    fromUser: (user: User) => user.purpose || []
+                }
+            }),
+            createField("contactNo", "Contact Number", "tel", 4, {
+                placeholder: "+91 9876543210",
+                prefill: {
+                    fromUser: (user: User) => user.contactNo || ""
+                }
+            })
+        ],
+        api: {
+            endpoint: (userId: string) =>
+                `${API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
+            method: "POST",
+            transformPayload: (form: any) => ({
+                userName: form.userName,
+                occupation: form.occupation,
+                purpose: form.purpose,
+                contactNo: form.contactNo
+            })
+        },
+        ui: {
+            theme: "default",
+            branding: {
+                title: "Welcome to The Boring Quiz!",
+                subtitle: "Let's Start with Your Tech journey."
+            }
+        }
+    },
+    
 
     // Example: How to add a new product
     // newproduct: {
@@ -228,7 +291,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
     //     }),
     //   ],
     //   api: {
-    //     endpoint: `${VITE_API_BASE_URL}/api/v1/newproduct/onboarding`,
+    //     endpoint: `${API_BASE_URL}/api/v1/newproduct/onboarding`,
     //     method: 'POST',
     //     transformPayload: (form, userId) => ({
     //       userId,
