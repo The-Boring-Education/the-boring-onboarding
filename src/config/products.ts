@@ -1,6 +1,6 @@
 import { OnboardingProductConfig, User } from "../types/onboarding"
 
-const API_BASE_URL = "http://localhost:3000"
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const createField = (
     name: string,
@@ -75,7 +75,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
+                `${API_BASE_URL}/user/onbording?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -190,7 +190,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
             }),
         ],
         api: {
-            endpoint: () => `${API_BASE_URL}/api/v1/prepyatra/onboarding`,
+            endpoint: () => `${API_BASE_URL}/prepyatra/onboarding`,
             method: "POST",
             transformPayload: (form: any, userId) => ({
                 userId,
@@ -258,7 +258,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${API_BASE_URL}/api/v1/user/onbording?userId=${userId}`,
+                `${API_BASE_URL}/user/onbording?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -291,7 +291,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
     //     }),
     //   ],
     //   api: {
-    //     endpoint: `${API_BASE_URL}/api/v1/newproduct/onboarding`,
+    //     endpoint: `${API_BASE_URL}/newproduct/onboarding`,
     //     method: 'POST',
     //     transformPayload: (form, userId) => ({
     //       userId,
