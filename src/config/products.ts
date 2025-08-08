@@ -75,7 +75,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${API_BASE_URL}/user/onbording?userId=${userId}`,
+                `${API_BASE_URL}/user/onboarding?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,
@@ -258,7 +258,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         ],
         api: {
             endpoint: (userId: string) =>
-                `${API_BASE_URL}/user/onbording?userId=${userId}`,
+                `${API_BASE_URL}/user/onboarding?userId=${userId}`,
             method: "POST",
             transformPayload: (form: any) => ({
                 userName: form.userName,

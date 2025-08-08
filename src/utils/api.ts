@@ -25,7 +25,7 @@ export async function checkUsernameAvailable(
     token?: string
 ): Promise<boolean> {
     try {
-        const url = `${VITE_API_BASE_URL}/user/onbording?userName=${username}`
+        const url = `${VITE_API_BASE_URL}/user/onboarding?userName=${username}`
 
         const response = await fetch(url, {
             headers: token ? { Authorization: `Bearer ${token}` } : {}
