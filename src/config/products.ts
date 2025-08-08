@@ -8,13 +8,13 @@ const createField = (
   type: "text" | "select" | "multiselect" | "tel" | "email" | "url",
   step: number,
   options?: {
-        required?: boolean
-        placeholder?: string
-        checkAvailability?: boolean
-        options?: string[]
-        validation?: any
-        prefill?: any
-    }
+    required?: boolean
+    placeholder?: string
+    checkAvailability?: boolean
+    options?: string[]
+    validation?: any
+    prefill?: any
+  }
 ) => ({
   name,
   label,
@@ -118,42 +118,28 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
           fromUser: (user: User) => user.prepYatra?.goal || ""
         }
       }),
-      createField(
-        "targetCompanies",
-        "Target Companies",
-        "multiselect",
-        4,
-        {
-          placeholder: "Select target companies",
-          options: ["Startup", "MNC", "FAANG", "MidSize"],
-          prefill: {
-            fromUser: (user: User) =>
-              user.prepYatra?.targetCompanies || []
-          }
+      createField("targetCompanies", "Target Companies", "multiselect", 4, {
+        placeholder: "Select target companies",
+        options: ["Startup", "MNC", "FAANG", "MidSize"],
+        prefill: {
+          fromUser: (user: User) => user.prepYatra?.targetCompanies || []
         }
-      ),
-      createField(
-        "preferredCategories",
-        "Preferred Interview Categories",
-        "multiselect",
-        5,
-        {
-          placeholder: "Select preferred categories",
-          options: [
-            "MNC",
-            "MERN",
-            "College Placement",
-            "DSA",
-            "System Design",
-            "General Tech"
-          ],
-          prefill: {
-            fromUser: (user: User) =>
-              user.prepYatra?.preferences?.interviewCategories ||
-                            []
-          }
+      }),
+      createField("preferredCategories", "Preferred Interview Categories", "multiselect", 5, {
+        placeholder: "Select preferred categories",
+        options: [
+          "MNC",
+          "MERN",
+          "College Placement",
+          "DSA",
+          "System Design",
+          "General Tech"
+        ],
+        prefill: {
+          fromUser: (user: User) =>
+            user.prepYatra?.preferences?.interviewCategories || []
         }
-      ),
+      }),
       createField("experienceLevel", "Experience Level", "select", 6, {
         placeholder: "Select your experience level",
         options: [
@@ -163,8 +149,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
           "Senior (5+ yrs)"
         ],
         prefill: {
-          fromUser: (user: User) =>
-            user.prepYatra?.experienceLevel || ""
+          fromUser: (user: User) => user.prepYatra?.experienceLevel || ""
         }
       }),
       createField("linkedInUrl", "LinkedIn URL (optional)", "url", 7, {
@@ -213,6 +198,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
       }
     }
   },
+
   quizapp: {
     id: "quizapp",
     name: "Quiz App",
@@ -275,36 +261,6 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
       }
     }
   }
-
-  // Example: How to add a new product
-  // newproduct: {
-  //   id: 'newproduct',
-  //   name: 'New Product',
-  //   description: 'Description of the new product',
-  //   fields: [
-  //     createField('fieldName', 'Field Label', 'text', 1, {
-  //       placeholder: 'Enter your field',
-  //       prefill: {
-  //         fromUser: (user: User) => user.someField || '',
-  //       },
-  //     }),
-  //   ],
-  //   api: {
-  //     endpoint: `${API_BASE_URL}/newproduct/onboarding`,
-  //     method: 'POST',
-  //     transformPayload: (form, userId) => ({
-  //       userId,
-  //       fieldName: form.fieldName,
-  //     }),
-  //   },
-  //   ui: {
-  //     theme: 'default',
-  //     branding: {
-  //       title: 'Welcome to New Product!',
-  //       subtitle: 'Let\'s get you started.',
-  //     },
-  //   },
-  // },
 }
 
 // Helper function to get product config
