@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getProductConfig, isValidProduct } from '../config/products';
 import { getUserById, submitOnboarding } from '../utils/api';
 import { User, UseOnboardingReturn } from '../types/onboarding';
+import { trackEvent } from '../utils/analytics';
 
 interface UseOnboardingProps {
   userId: string;
@@ -70,10 +71,12 @@ export const useOnboarding = ({
   }, [userId, productId, token, config]);
 
   const handleNext = () => {
+    try { trackEvent('onboarding_next', { category: 'onboarding', step }); } catch {}
     setStep(s => Math.min(s + 1, totalSteps));
   };
 
   const handleBack = () => {
+    try { trackEvent('onboarding_previous', { category: 'onboarding', step }); } catch {}
     setStep(s => Math.max(s - 1, 1));
   };
 
@@ -82,6 +85,7 @@ export const useOnboarding = ({
 
     setSubmitting(true);
     setError('');
+    try { trackEvent('onboarding_submit', { category: 'onboarding' }); } catch {}
 
     const { success, error: apiError } = await submitOnboarding(
       productId,
@@ -92,8 +96,10 @@ export const useOnboarding = ({
     setSubmitting(false);
 
     if (success) {
+      try { trackEvent('onboarding_complete', { category: 'onboarding' }); } catch {}
       window.location.href = redirect;
     } else {
+      try { trackEvent('onboarding_error', { category: 'onboarding', error: apiError }); } catch {}
       setError(apiError || 'Submission failed');
     }
   };
