@@ -75,7 +75,7 @@ export interface OnboardingProductConfig {
   api: {
     endpoint: string | ((userId: string) => string);
     method: 'POST' | 'PUT' | 'PATCH';
-    transformPayload: (form: unknown, userId: string) => unknown;
+    transformPayload: (form: unknown, userId: string, from?: string) => unknown;
   };
   validation?: {
     custom?: (form: unknown) => boolean | string;
