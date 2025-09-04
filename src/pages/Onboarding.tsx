@@ -8,7 +8,8 @@ import { isValidProduct } from '../config/products';
 const Onboarding: React.FC = () => {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get('userId') || '';
-  const productId = searchParams.get('from') || 'webapp';
+  const productId = searchParams.get('productId') || 'webapp';
+  const from = searchParams.get('from') || '';
   const redirect = searchParams.get('redirect') || '/';
   const token = searchParams.get('token') || '';
 
@@ -28,7 +29,7 @@ const Onboarding: React.FC = () => {
     isFieldValid,
     setUsernameAvailability,
     setUsernameChecking,
-  } = useOnboarding({ userId, productId, redirect, token });
+  } = useOnboarding({ userId, productId, redirect, token, from });
 
   if (loading) {
     return (

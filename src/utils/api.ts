@@ -41,7 +41,8 @@ export async function submitOnboarding(
   productId: string,
   userId: string,
   data: unknown,
-  token?: string
+  token?: string,
+  from?: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const config = getProductConfig(productId)
@@ -49,7 +50,7 @@ export async function submitOnboarding(
       return { success: false, error: "Invalid product configuration" }
     }
 
-    const payload = config.api.transformPayload(data, userId)
+    const payload = config.api.transformPayload(data, userId, from)
     // Handle dynamic endpoint
     const endpoint =
             typeof config.api.endpoint === "function"
