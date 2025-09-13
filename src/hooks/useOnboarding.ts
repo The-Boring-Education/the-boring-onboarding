@@ -9,6 +9,7 @@ interface UseOnboardingProps {
   productId: string;
   redirect: string;
   token?: string;
+  from?: string;
 }
 
 export const useOnboarding = ({
@@ -16,6 +17,7 @@ export const useOnboarding = ({
   productId,
   redirect,
   token,
+  from,
 }: UseOnboardingProps): UseOnboardingReturn => {
   const [user, setUser] = useState<User | null>(null);
   const [step, setStep] = useState(1);
@@ -91,7 +93,8 @@ export const useOnboarding = ({
       productId,
       userId,
       form,
-      token
+      token,
+      from
     );
     setSubmitting(false);
 

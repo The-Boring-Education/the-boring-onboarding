@@ -77,11 +77,12 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
       endpoint: (userId: string) =>
         `${API_BASE_URL}/user/onboarding?userId=${userId}`,
       method: "POST",
-      transformPayload: (form: any) => ({
+      transformPayload: (form: any, _userId: string, from?: string) => ({
         userName: form.userName,
         occupation: form.occupation,
         purpose: form.purpose,
-        contactNo: form.contactNo
+        contactNo: form.contactNo,
+        ...(from ? { from } : {})
       })
     },
     ui: {
@@ -177,7 +178,7 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
     api: {
       endpoint: () => `${API_BASE_URL}/prepyatra/onboarding`,
       method: "POST",
-      transformPayload: (form: any, userId) => ({
+      transformPayload: (form: any, userId: string, from?: string) => ({
         userId,
         name: form.name,
         username: form.username,
@@ -187,7 +188,8 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
         experienceLevel: form.experienceLevel,
         ...(form.linkedInUrl ? { linkedInUrl: form.linkedInUrl } : {}),
         ...(form.githubUrl ? { githubUrl: form.githubUrl } : {}),
-        ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {})
+        ...(form.leetCodeUrl ? { leetCodeUrl: form.leetCodeUrl } : {}),
+        ...(from ? { from } : {})
       })
     },
     ui: {
@@ -246,11 +248,12 @@ export const PRODUCT_CONFIGS: Record<string, OnboardingProductConfig> = {
       endpoint: (userId: string) =>
         `${API_BASE_URL}/user/onboarding?userId=${userId}`,
       method: "POST",
-      transformPayload: (form: any) => ({
+      transformPayload: (form: any, _userId: string, from?: string) => ({
         userName: form.userName,
         occupation: form.occupation,
         purpose: form.purpose,
-        contactNo: form.contactNo
+        contactNo: form.contactNo,
+        ...(from ? { from } : {})
       })
     },
     ui: {
