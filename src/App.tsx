@@ -1,29 +1,32 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import Onboarding from './pages/Onboarding';
-import { useEffect } from 'react';
-import { initGA, installGlobalListeners, trackPageview } from './utils/analytics';
+import { useEffect } from "react"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { initGA, installGlobalAnalyticsListeners } from "@tbe/utils"
+import Onboarding from "./pages/Onboarding"
+import "./index.css"
 
-function RouterAnalytics() {
-  const location = useLocation();
-  useEffect(() => {
-    initGA();
-    installGlobalListeners();
-  }, []);
-  useEffect(() => {
-    trackPageview(location.pathname + location.search);
-  }, [location]);
-  return null;
-}
-
+/**
+ * Onboarding App
+ *
+ * Completely refactored to use shared TBE packages
+ * Minimal app that focuses only on routing and initialization
+ */
 function App() {
-  return (
-    <BrowserRouter>
-      <RouterAnalytics />
-      <Routes>
-        <Route path="/" element={<Onboarding />} />
-      </Routes>
-    </BrowserRouter>
-  );
+    useEffect(() => {
+        // Initialize analytics using shared utility
+        initGA()
+        installGlobalAnalyticsListeners()
+    }, [])
+
+    return (
+        <Router>
+            <Routes>
+                <Route path='/' element={<Onboarding />} />
+                <Route path='/onboarding' element={<Onboarding />} />
+                {/* Catch all route */}
+                <Route path='*' element={<Onboarding />} />
+            </Routes>
+        </Router>
+    )
 }
 
-export default App;
+export default App

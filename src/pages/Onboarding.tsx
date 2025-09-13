@@ -1,81 +1,97 @@
-import React from 'react';
-import { useSearchParams } from 'react-router-dom';
-import OnboardingLayout from '../components/OnboardingLayout';
-import OnboardingForm from '../components/OnboardingForm';
-import { useOnboarding } from '../hooks/useOnboarding';
-import { isValidProduct } from '../config/products';
+import React from "react"
+import { useSearchParams } from "react-router-dom"
+import { OnboardingLayout, OnboardingForm, LoadingSpinner, Text } from "@tbe/ui"
+import { useOnboarding } from "@tbe/hooks"
 
-const Onboarding: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const userId = searchParams.get('userId') || '';
-  const productId = searchParams.get('productId') || 'webapp';
-  const from = searchParams.get('from') || '';
-  const redirect = searchParams.get('redirect') || '/';
-  const token = searchParams.get('token') || '';
+/**
+ * Onboarding Page
+ *
+ * Now completely based on shared TBE packages
+ * Zero duplication - all logic is in @tbe/* packages
+ */
+export default function Onboarding() {
+    const [searchParams] = useSearchParams()
+    const userId = searchParams.get("userId") || ""
+    const productId = searchParams.get("productId") || "onboarding"
+    const from = searchParams.get("from") || ""
+    const redirect = searchParams.get("redirect") || "/"
+    const token = searchParams.get("token") || ""
 
-  const {
-    user,
-    step,
-    form,
-    setForm,
-    loading,
-    error,
-    submitting,
-    config,
-    totalSteps,
-    handleNext,
-    handleBack,
-    handleFinish,
-    isFieldValid,
-    setUsernameAvailability,
-    setUsernameChecking,
-  } = useOnboarding({ userId, productId, redirect, token, from });
+    // All logic is now in the shared useOnboarding hook
+    const {
+        user,
+        step,
+        form,
+        setForm,
+        loading,
+        error,
+        submitting,
+        config,
+        totalSteps,
+        handleNext,
+        handleBack,
+        handleFinish,
+        isFieldValid,
+        setUsernameAvailability
+    } = useOnboarding({
+        userId,
+        productId,
+        redirect,
+        token,
+        from
+    })
 
-  if (loading) {
+    // Show loading state while initializing
+    if (loading) {
+        return (
+            <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50'>
+                <div className='text-center'>
+                    <LoadingSpinner size='lg' className='mb-4' />
+                    <Text variant='body1' className='text-gray-600'>
+                        Preparing your onboarding experience...
+                    </Text>
+                </div>
+            </div>
+        )
+    }
+
+    // Show error if no config found
+    if (!config) {
+        return (
+            <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50'>
+                <div className='text-center max-w-md mx-auto p-8'>
+                    <Text variant='h4' className='text-red-600 mb-4'>
+                        Configuration Error
+                    </Text>
+                    <Text variant='body1' className='text-gray-600'>
+                        Invalid product ID: {productId}
+                    </Text>
+                </div>
+            </div>
+        )
+    }
+
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-50 to-green-50">
-        <div className="text-lg font-semibold animate-pulse">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!userId || !isValidProduct(productId) || !config) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-50 to-green-50">
-        <div className="text-red-600 font-semibold text-xl">
-          Invalid onboarding link.
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <OnboardingLayout
-      step={step}
-      totalSteps={totalSteps}
-      onBack={handleBack}
-      onNext={handleNext}
-      onFinish={handleFinish}
-      isFieldValid={isFieldValid}
-      submitting={submitting}
-      error={error}
-      config={config}
-    >
-      <OnboardingForm
-        config={config}
-        form={form as Record<string, unknown>}
-        setForm={setForm}
-        step={step}
-        productId={productId}
-        token={token}
-        user={user || undefined}
-        onUsernameAvailabilityChange={(available, checking) => {
-          setUsernameAvailability(available);
-          setUsernameChecking(checking);
-        }}
-      />
-    </OnboardingLayout>
-  );
-};
-
-export default Onboarding;
+        <OnboardingLayout
+            step={step}
+            totalSteps={totalSteps}
+            onBack={handleBack}
+            onNext={handleNext}
+            onFinish={handleFinish}
+            isFieldValid={isFieldValid}
+            submitting={submitting}
+            error={error}
+            config={config}>
+            <OnboardingForm
+                config={config}
+                form={form}
+                setForm={setForm}
+                step={step}
+                productId={productId}
+                token={token}
+                user={user}
+                onUsernameAvailabilityChange={setUsernameAvailability}
+            />
+        </OnboardingLayout>
+    )
+}

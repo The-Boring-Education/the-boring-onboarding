@@ -1,44 +1,34 @@
 {
   "name": "@tbe/onboarding",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3003",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tbe/ui": "workspace:*",
+    "@tbe/hooks": "workspace:*", 
     "@tbe/utils": "workspace:*",
     "@tbe/types": "workspace:*",
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.2",
-    "tailwindcss": "^3.3.2",
-    "typescript": "^5.0.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@tbe/config": "workspace:*",
     "@tbe/eslint-config": "workspace:*",
     "@tbe/typescript-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.59.8",
-    "@typescript-eslint/parser": "^5.59.8",
-    "@vitejs/plugin-react": "^4.0.0",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.41.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
-    "postcss": "^8.4.24",
-    "vite": "^4.3.9"
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
   }
 }
